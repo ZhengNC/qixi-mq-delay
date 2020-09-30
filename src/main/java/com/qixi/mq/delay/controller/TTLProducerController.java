@@ -5,6 +5,7 @@ import com.qixi.mq.delay.producer.TTLProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalTime;
@@ -42,11 +43,11 @@ public class TTLProducerController {
      * @return
      */
     @GetMapping("sendDelayedMsg")
-    public ResponseEntity<String> sendDelayedMsg(){
+    public ResponseEntity<String> sendDelayedMsg(@RequestParam(value = "time", required = false) Long time){
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         StringBuilder message = new StringBuilder("这是一条延时消息，消息的发送时间为：");
         message.append(timeFormatter.format(LocalTime.now()));
-        producer.sendDelayedMessage(message.toString());
+        producer.sendDelayedMessage(message.toString(), time);
         return ResponseEntity.success();
     }
 }

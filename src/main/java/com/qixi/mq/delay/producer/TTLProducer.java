@@ -33,8 +33,10 @@ public class TTLProducer {
      * 发送一条延时消息（延时插件的实现方式）
      *
      * @param message
+     * @param time
      */
-    public void sendDelayedMessage(String message){
+    public void sendDelayedMessage(String message, Long time){
+        Long finalTime = time == null ? 10000 : time;
         rabbitTemplate.convertAndSend(
                 RabbitConstant.Exchanges.delayedExchange,
                 RabbitConstant.RouterKey.delayedRouteKey,
@@ -42,7 +44,7 @@ public class TTLProducer {
                 msg -> {
                     //设置此消息延时十秒
                     msg.getMessageProperties()
-                            .setHeader("x-delay", 10000);
+                            .setHeader("x-delay", finalTime);
                     return msg;
                 });
     }
