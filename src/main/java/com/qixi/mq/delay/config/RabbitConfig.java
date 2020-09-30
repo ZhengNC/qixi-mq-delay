@@ -123,6 +123,13 @@ public class RabbitConfig {
                 .with(RabbitConstant.RouterKey.deadRouteKey);
     }
 
+    /**
+     * 绑定延时队列和延时交换机（延时插件实现方式）
+     *
+     * @param delayedQueue
+     * @param delayedExchange
+     * @return
+     */
     @Bean
     public Binding delayedQueue_delayedExchange(
             @Qualifier("delayedQueue") Queue delayedQueue,
